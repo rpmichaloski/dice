@@ -96,14 +96,91 @@ class dice
 	public:
 	   string userFirstName;
 	   string userReady;
+	   string userChallenge;
 	   int qtyDiceSides;
 	   int qtyDies;
-	   int i,j;
+	   int i,j,k;
+	   int doubles1A, doubles1B;
+	   int doubles2A, doubles2B;
 	   
 	   dice()
 	   {
 	   	cout << "Let's roll!" << endl;
 	   }
+	   
+       void challengeAgain()
+       {
+   	 	cout << "\nHey high roller!  Are you up for the doubles challenge?? ( Y or N ):" << endl;
+	    	cin >> userChallenge;  	
+        }
+
+	   // challenge 
+	   void doublesChallenge()
+	   {
+           challengeAgain();
+	       while ( userChallenge == "Y" )
+           {
+           	qtyDies = 2;
+           	highRoller();
+           	challengeRoller();     
+            	
+           	challengeWinner();
+           	userChallenge = "N";
+           	challengeAgain();
+           }    
+	   }
+	   
+	   void challengeRoller()
+	   {
+	   	 j=0;
+	   	 
+	   	 for (i = 0; i < 2; i++)
+	   	 {
+	   	 	j = rand() % qtyDiceSides + 1;
+	   	 	cout << "\nWith die # " << i+1 << " of 2" << ", your challenger rolled a " << j << "!" << endl;
+
+	   	     if ( qtyDies == 2 )
+	   	 	{
+	   	 		if ( i == 0 )
+	   	 		{
+	   	 			doubles2A = j;
+	   	 		}
+	   	 		else
+	   	 		{
+	   	 			doubles2B = j;
+	   	 		}
+	   	 	}
+	   	 }
+		 }	   
+		 
+		 void challengeWinner()
+		 {
+		 	  cout << "who won? \n\n\nwho knows???\n";
+		 	  
+		 	  if( doubles1A != doubles1B )
+		 	  {
+		 	  	if( doubles2A == doubles2B )
+		 	  	{
+		 	  		cout << "\n\n   Your challenger just won!!!!!" << endl;
+		 	  	}
+		 	  	else
+		 	  	{
+		 	  		 cout <<  "\n\nNo one rose to the challenge this round ... \n\n";
+		 	  	}
+		 	  }
+		 	  else
+		 	  {
+		 	  	if ( doubles2A == doubles2B )
+		 	  	{
+		 	  		cout << "\n\n\n   WOW!!!!! You AND your challenger both rose to thechallenge!!!\n\n\n";
+		 	  	}
+		 	  	else
+		 	  	{
+		 	      	cout << "\n\n\n   You go, highroller!!!!  You have won the doubles challenge this round!!!!\n\n\n";
+		 	  	}
+		 	  }	  
+		 }
+		 
 	   
 	   void greetUser()
 	   {
@@ -134,6 +211,18 @@ class dice
 	   	 {
 	   	 	j = rand() % qtyDiceSides + 1;
 	   	 	cout << "\nWith die # " << i+1 << " of " << qtyDies << ", you rolled a " << j << "!" << endl;
+
+	   	     if ( qtyDies == 2 )
+	   	 	{
+	   	 		if ( i == 0 )
+	   	 		{
+	   	 			doubles1A = j;
+	   	 		}
+	   	 		else
+	   	 		{
+	   	 			doubles1B = j;		
+	   	 		}
+	   	 	}
 	   	 }
 	   	 
 	   	 cout << " \n\n Yo, high roller!  I hope that you are having fun!!!!" << endl;
@@ -157,12 +246,17 @@ int main()
 
 		user1.greetUser();
 		user1.qtySides();
-		user1.qtyDice();
-        
-        while ( user1.userReady == "Y" )
+		user1.doublesChallenge();
+
+        if ( user1.userChallenge != "Y" )
         {
-        	user1.highRoller();
-        	user1.rollAgain();
+			user1.qtyDice();
+        
+            while ( user1.userReady == "Y" )
+            {
+            	user1.highRoller();
+            	user1.rollAgain();
+             }
         }
         
 		return(0);	
