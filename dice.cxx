@@ -122,8 +122,7 @@ class dice
            {
            	qtyDies = 2;
            	highRoller();
-           	challengeRoller();     
-            	
+           	challengeRoller();                 	
            	challengeWinner();
            	userChallenge = "N";
            	challengeAgain();
@@ -155,7 +154,7 @@ class dice
 		 
 		 void challengeWinner()
 		 {
-		 	  cout << "who won? \n\n\nwho knows???\n";
+		 	  cout << "   \n\nwho won? \n\n\nwho knows???\n";
 		 	  
 		 	  if( doubles1A != doubles1B )
 		 	  {
@@ -165,14 +164,14 @@ class dice
 		 	  	}
 		 	  	else
 		 	  	{
-		 	  		 cout <<  "\n\nNo one rose to the challenge this round ... \n\n";
+		 	  		 cout <<  "\n\n   No one rose to the challenge this round ... \n\n";
 		 	  	}
 		 	  }
 		 	  else
 		 	  {
 		 	  	if ( doubles2A == doubles2B )
 		 	  	{
-		 	  		cout << "\n\n\n   WOW!!!!! You AND your challenger both rose to thechallenge!!!\n\n\n";
+		 	  		cout << "\n\n\n   WOW!!!!! You AND your challenger both rose to the challenge!!! \n\n\n";
 		 	  	}
 		 	  	else
 		 	  	{
