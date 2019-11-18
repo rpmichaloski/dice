@@ -1,6 +1,9 @@
 /* 
-classes
-dice 
+classes *
+dice *
+doubles challenge *
+array storage results messages
+sqlite storage results messages
 then calculator
 
 R. Michaloski
@@ -96,14 +99,104 @@ class dice
 	public:
 	   string userFirstName;
 	   string userReady;
+	   string userChallenge;
 	   int qtyDiceSides;
 	   int qtyDies;
-	   int i,j;
+	   int i,j,k;
+	   int doubles1A, doubles1B;
+	   int doubles2A, doubles2B;
+	   
+	   // results
+	   int doublesGamesPlayed;
+	   int doublesGamesWon;
+//	   int highRollerGamesPlayed;
+	   int userDoublesResults [];
+//	   int userHighRollerResults[];
 	   
 	   dice()
 	   {
 	   	cout << "Let's roll!" << endl;
 	   }
+	   
+       void challengeInit()
+       {
+   	 	cout << "\nHey high roller!  Are you up for the doubles challenge?? ( Y or N ):" << endl;
+	    	cin >> userChallenge;  	
+        }
+
+	   // challenge 
+	   void doublesChallenge()
+	   {
+           challengeInit();
+           doublesGamesPlayed = 0;
+	       while ( userChallenge == "Y" )
+           {
+           	qtyDies = 2;
+           	highRoller();
+           	challengeRoller();                 	
+           	challengeWinner();
+           	updateDoublesResults();
+           	userChallenge = "N";
+           	challengeInit();
+           }    
+	   }
+	   
+	   void challengeRoller()
+	   {
+	   	 j=0;
+	   	 
+	   	 for (i = 0; i < 2; i++)
+	   	 {
+	   	 	j = rand() % qtyDiceSides + 1;
+	   	 	cout << "With die # " << i+1 << " of 2" << ", your challenger rolled a " << j << "!" << endl;
+
+	   	     if ( qtyDies == 2 )
+	   	 	{
+	   	 		if ( i == 0 )
+	   	 		{
+	   	 			doubles2A = j;
+	   	 		}
+	   	 		else
+	   	 		{
+	   	 			doubles2B = j;
+	   	 		}
+	   	 	}
+	   	 }
+		 }	   
+		 
+		 void challengeWinner()
+		 {
+		 	  cout << "   \n\nwho won? \n\n\nwho knows???\n";
+		 	  
+		 	  if( doubles1A != doubles1B )
+		 	  {
+		 	  	if( doubles2A == doubles2B )
+		 	  	{
+		 	  		cout << "\n\n   Your challenger just won!!!!!" << endl;
+		 	  	}
+		 	  	else
+		 	  	{
+		 	  		 cout <<  "\n\n   No one rose to the challenge this round ... \n\n";
+		 	  	}
+		 	  }
+		 	  else
+		 	  {
+		 	  	if ( doubles2A == doubles2B )
+		 	  	{
+		 	  		cout << "\n\n\n   WOW!!!!! You AND your challenger both rose to the challenge!!! \n\n\n";
+		 	  		doublesGamesWon = doublesGamesWon + 1;
+		 	          userDoublesResults [ doublesGamesWon -1 ] = doubles1A;
+		 	  	}
+		 	  	else
+		 	  	{
+		 	      	cout << "\n\n\n   You go, highroller!!!!  You have won the doubles challenge this round!!!!\n\n\n";
+		 	      	
+		 	          doublesGamesWon = doublesGamesWon + 1;  
+		 	          userDoublesResults [ doublesGamesWon -1 ] = doubles1A;
+		 	  	}
+		 	  }	  
+		 }
+		 
 	   
 	   void greetUser()
 	   {
@@ -133,7 +226,19 @@ class dice
 	   	 for (i =0; i < qtyDies; i++)
 	   	 {
 	   	 	j = rand() % qtyDiceSides + 1;
-	   	 	cout << "\nWith die # " << i+1 << " of " << qtyDies << ", you rolled a " << j << "!" << endl;
+	   	 	cout << "With die # " << i+1 << " of " << qtyDies << ", you rolled a " << j << "!" << endl;
+
+	   	     if ( qtyDies == 2 )
+	   	 	{
+	   	 		if ( i == 0 )
+	   	 		{
+	   	 			doubles1A = j;
+	   	 		}
+	   	 		else
+	   	 		{
+	   	 			doubles1B = j;		
+	   	 		}
+	   	 	}
 	   	 }
 	   	 
 	   	 cout << " \n\n Yo, high roller!  I hope that you are having fun!!!!" << endl;
@@ -144,6 +249,15 @@ class dice
 			 cout << "\n That was awesome!  Would you like to roll again?  ( Y or N ): ";
 			 cin >> userReady;		
 		}
+						
+		void updateDoublesResults()
+		{
+			 // results
+	         doublesGamesPlayed = doublesGamesPlayed +1;
+	         
+	   cout << "\nYou have now won a total of " << doublesGamesWon << " out of a total of " << doublesGamesPlayed << endl;
+
+		}	
 									
 	   ~dice()
 	   {
@@ -157,12 +271,17 @@ int main()
 
 		user1.greetUser();
 		user1.qtySides();
-		user1.qtyDice();
-        
-        while ( user1.userReady == "Y" )
+		user1.doublesChallenge();
+
+        if ( user1.userChallenge != "Y" )
         {
-        	user1.highRoller();
-        	user1.rollAgain();
+			user1.qtyDice();
+        
+            while ( user1.userReady == "Y" )
+            {
+            	user1.highRoller();
+            	user1.rollAgain();
+             }
         }
         
 		return(0);	
