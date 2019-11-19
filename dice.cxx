@@ -110,7 +110,8 @@ class dice
 	   int doublesGamesPlayed;
 	   int doublesGamesWon;
 //	   int highRollerGamesPlayed;
-	   int userDoublesResults [];
+	   int userDoublesResults [9];
+	   int userLuckyDoubles;
 //	   int userHighRollerResults[];
 	   
 	   dice()
@@ -129,6 +130,9 @@ class dice
 	   {
            challengeInit();
            doublesGamesPlayed = 0;
+           doublesGamesWon = 0;
+           userDoublesResults[0] = 0;
+           
 	       while ( userChallenge == "Y" )
            {
            	qtyDies = 2;
@@ -197,6 +201,20 @@ class dice
 		 	  }	  
 		 }
 		 
+	   void findLuckyDoubles()
+	   {
+	   	// search userDoublesResults for which value occurs the most often
+	   	if (userDoublesResults[0] > 0)
+	   	{
+	   		 cout << "\nYou have won with double " << userDoublesResults[0] << "'s!!!" << endl;
+	   	}
+	   	else
+	   	{
+	   		cout << "\n :-(  sadly, you haven't been lucky in the doubles challenge yet, but don't give up now!!!!" << endl;
+	   	}
+	   	
+	   	
+	   }
 	   
 	   void greetUser()
 	   {
@@ -255,7 +273,9 @@ class dice
 			 // results
 	         doublesGamesPlayed = doublesGamesPlayed +1;
 	         
-	   cout << "\nYou have now won a total of " << doublesGamesWon << " out of a total of " << doublesGamesPlayed << endl;
+	         findLuckyDoubles();
+	         
+	        cout << "\nYou have now won a total of " << doublesGamesWon << " out of a total of " << doublesGamesPlayed << endl;
 
 		}	
 									
