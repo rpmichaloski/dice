@@ -2,13 +2,13 @@
 classes *
 dice *
 doubles challenge *
-array storage results messages
+array storage results messages *!
 sqlite storage results messages
 then calculator
 
 R. Michaloski
 
-12 Nov 2019
+21 Nov 2019
 */
 
 #include<iostream>
@@ -109,8 +109,8 @@ class dice
 	   // results
 	   int doublesGamesPlayed;
 	   int doublesGamesWon;
-//	   int highRollerGamesPlayed;
-	   int userDoublesResults [9];
+	   int topFiveDoublesResults = 20;
+	   int userDoublesResults[20] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 	   int userLuckyDoubles;
 //	   int userHighRollerResults[];
 	   
@@ -131,7 +131,7 @@ class dice
            challengeInit();
            doublesGamesPlayed = 0;
            doublesGamesWon = 0;
-           userDoublesResults[0] = 0;
+           //userDoublesResults[0] = 0;
            
 	       while ( userChallenge == "Y" )
            {
@@ -201,19 +201,53 @@ class dice
 		 	  }	  
 		 }
 		 
+		 void finalResults()
+		 {
+		 	int finalCounter;
+		 	cout << "\n\n   Here are your final winning results:" << endl;
+		 	
+		     for (finalCounter =0; finalCounter < doublesGamesWon; finalCounter++)
+		     {
+		     	 cout << userDoublesResults[ finalCounter ] << endl;
+		     		
+		     }	
+		 }
+		 
 	   void findLuckyDoubles()
 	   {
+	   	int luckiestYet = 0;
+	   	int luckyCounter;
+	   	int doublesWinners[3][2]= {{0,0}, {0,0}, {0,0}};
 	   	// search userDoublesResults for which value occurs the most often
 	   	if (userDoublesResults[0] > 0)
 	   	{
-	   		 cout << "\nYou have won with double " << userDoublesResults[0] << "'s!!!" << endl;
+	        	// search array
+                // based on the number of times that the user has won ...
+                // grab first winner and count how many times that has been a winner
+                luckiestYet = userDoublesResults[0];
+                doublesWinners[0][0] = 1;
+                doublesWinners[0][1] = userDoublesResults[0];
+                
+                for ( luckyCounter = 1; luckyCounter < doublesGamesWon; luckyCounter++)
+                {
+                
+                	if ( userDoublesResults[luckyCounter] == doublesWinners[0][1])
+                	{
+                		doublesWinners[0][0] = doublesWinners[0][0] +1;
+                    	luckiestYet = userDoublesResults[luckyCounter];
+                	
+    	            	userLuckyDoubles = luckiestYet;    
+	                
+	                }
+	            }
+	                	
+	        	cout << "\nYour luckiest doubles today have been " << userLuckyDoubles << "'s!!!" << endl;
+	        	cout << "You have won with them a total of " << doublesWinners[0][0] << " times." << endl;
 	   	}
-	   	else
-	   	{
-	   		cout << "\n :-(  sadly, you haven't been lucky in the doubles challenge yet, but don't give up now!!!!" << endl;
-	   	}
-	   	
-	   	
+	       else
+	       {
+	        	cout << "\n :-(  sadly, you haven't been lucky in the doubles challenge yet, but don't give up now!!!!" << endl;
+	       }
 	   }
 	   
 	   void greetUser()
@@ -278,6 +312,26 @@ class dice
 	        cout << "\nYou have now won a total of " << doublesGamesWon << " out of a total of " << doublesGamesPlayed << endl;
 
 		}	
+		
+		void userSession()
+		{
+
+		     greetUser();
+		     qtySides();
+		     doublesChallenge();
+
+             if ( userChallenge != "Y" )
+             {
+			       qtyDice();
+        
+                   while ( userReady == "Y" )
+                   {
+            	         highRoller();
+            	         rollAgain();
+                   }
+              }
+              finalResults();
+		}
 									
 	   ~dice()
 	   {
@@ -288,21 +342,8 @@ class dice
 int main()
 {
 		dice user1;
+		
+		user1.userSession();
 
-		user1.greetUser();
-		user1.qtySides();
-		user1.doublesChallenge();
-
-        if ( user1.userChallenge != "Y" )
-        {
-			user1.qtyDice();
-        
-            while ( user1.userReady == "Y" )
-            {
-            	user1.highRoller();
-            	user1.rollAgain();
-             }
-        }
-        
 		return(0);	
 }
